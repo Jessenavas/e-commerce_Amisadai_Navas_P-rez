@@ -1,0 +1,25 @@
+body {
+    background-color: #f8f9fa;
+}
+
+h1 { /* Título Productos */
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.card {
+    height: 100%;
+    margin-bottom: 1x0px;
+}
+
+.card-img-top { /* Imágenes mismo tamaño */
+    height: 200px; 
+    object-fit: cover;
+    transition: transform 0.7s ease; 
+    border-radius: 5px;
+}
+
+.card:hover .card-img-top { /* Zoom mouse */
+    transform: scale(1.1); /* Aumenta tamaño 10% */
+}

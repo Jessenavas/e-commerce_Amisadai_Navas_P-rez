@@ -12,26 +12,26 @@ img.src = ""; */
 
 document.querySelector("h1").innerHTML = "Productos";
 
-
 const container = document.querySelector(".container");
 
-        for (let i = 1; i <= 3; i++) {
+const row = document.createElement("div");
+row.classList.add("row");
 
-            const card = `
-                <div class="mt-5">
-                <div class="col-md-4">
-                    <div class="card">
-                        <img src="https://66d9ee6caa07a954166f10ed--gregarious-melba-cacdba.netlify.app/${i}.jpg" class="card-img-top" alt="Imagen ${i}">
-                        <div class="card-body">
-                            <h5 class="card-title">Card ${i}</h5>
-                            <p class="card-text">Descripción de la card número ${i}.</p>
-                            <a href="#" class="btn btn-primary">Ver más</a>
-                        </div>
-                    </div>
+for (let i = 1; i <= 9; i++) {
+    const card = `
+        <div class="col-md-4 mt-5"> <!-- col-md-4 para que cada card ocupe 1/3 del ancho -->
+            <div class="card">
+                <img src="https://66d9ee6caa07a954166f10ed--gregarious-melba-cacdba.netlify.app/${i}.jpg" class="card-img-top" alt="Imagen ${i}">
+                <div class="card-body">
+                    <h5 class="card-title">Card ${i}</h5>
+                    <p class="card-text">Descripción de la card número ${i}.</p>
+                    <a href="${i}" class="btn btn-primary">Ver más</a>
                 </div>
-                </div>
-            `;
+            </div>
+        </div>
+    `;
 
+    row.innerHTML += card;
+}
 
-            container.innerHTML += card;
-        }
+container.appendChild(row);
