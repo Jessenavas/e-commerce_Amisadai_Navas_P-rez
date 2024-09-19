@@ -25,7 +25,7 @@ for (let i = 1; i <= 9; i++) {
                 <div class="card-body">
                     <h5 class="card-title">Card ${i}</h5>
                     <p class="card-text">Descripción de la card número ${i}.</p>
-                    <a href="${i}" class="btn btn-primary">Ver más</a>
+                    <a href="./producto.html" class="btn btn-primary">Ver más</a>
                 </div>
             </div>
         </div>
