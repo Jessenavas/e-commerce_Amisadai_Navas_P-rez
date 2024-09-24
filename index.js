@@ -12,6 +12,8 @@ img.src = ""; */
 
 document.querySelector("h1").innerHTML = "Productos";
 
+function generarTarjetas() {
+
 const container = document.querySelector(".container");
 
 const row = document.createElement("div");
@@ -35,3 +37,6 @@ for (let i = 1; i <= 9; i++) {
 }
 
 container.appendChild(row);
+}
+generarTarjetas(); // Esto ejecuta la función y genera las tarjetas
+
