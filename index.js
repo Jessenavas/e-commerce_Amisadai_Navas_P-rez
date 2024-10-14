@@ -12,31 +12,53 @@ img.src = ""; */
 
 document.querySelector("h1").innerHTML = "Productos";
 
+const data = [
+    {
+        "id": 1,
+        "titulo": "Producto 1",
+        "descripcion": "Descripción del producto 1.",
+        "imagen_url": "https://66d9ee6caa07a954166f10ed--gregarious-melba-cacdba.netlify.app/1.jpg", 
+        "precio": 100
+    },
+    {
+        "id": 2,
+        "titulo": "Producto 2",
+        "descripcion": "Descripción del producto 2.",
+        "imagen_url": "https://66d9ee6caa07a954166f10ed--gregarious-melba-cacdba.netlify.app/2.jpg", 
+        "precio": 150
+    },
+    {
+        "id": 3,
+        "titulo": "Producto 3",
+        "descripcion": "Descripción del producto 3.",
+        "imagen_url": "https://66d9ee6caa07a954166f10ed--gregarious-melba-cacdba.netlify.app/3.jpg", 
+        "precio": 200
+    }
+];
+
 function generarTarjetas() {
+    const container = document.querySelector(".container");
+    const row = document.createElement("div");
+    row.classList.add("row");
 
-const container = document.querySelector(".container");
-
-const row = document.createElement("div");
-row.classList.add("row");
-
-for (let i = 1; i <= 9; i++) {
-    const card = `
-        <div class="col-md-4 mt-5"> <!-- col-md-4 para que cada card ocupe 1/3 del ancho -->
+    const tarjetas = data.map(producto => `
+        <div class="col-md-4 mt-5">
             <div class="card">
-                <img src="https://66d9ee6caa07a954166f10ed--gregarious-melba-cacdba.netlify.app/${i}.jpg" class="card-img-top" alt="Imagen ${i}">
+                <img src="${producto.imagen_url}" class="card-img-top" alt="${producto.titulo}">
                 <div class="card-body">
-                    <h5 class="card-title">Card ${i}</h5>
-                    <p class="card-text">Descripción de la card número ${i}.</p>
-                    <a href="./producto.html" class="btn btn-primary">Ver más</a>
+                    <h5 class="card-title">${producto.titulo}</h5>
+                    <p class="card-text">${producto.descripcion}</p>
+                    <p class="card-text">Precio: $${producto.precio}</p>
+                    <!-- Se agrega el id del producto en la URL -->
+                    <a href="./producto.html?prod=${producto.id}" class="btn btn-primary">Ver más</a>
                 </div>
             </div>
         </div>
-    `;
+    `);
 
-    row.innerHTML += card;
+    row.innerHTML = tarjetas.join('');
+    container.appendChild(row);
 }
 
-container.appendChild(row);
-}
-generarTarjetas(); // Esto ejecuta la función y genera las tarjetas
+generarTarjetas();
 
