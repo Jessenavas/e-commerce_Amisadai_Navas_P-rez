@@ -20,3 +20,11 @@ h1 { /* Título Productos */
 .card:hover .card-img-top { /* Zoom mouse */
     transform: scale(1.1); /* Aumenta tamaño 10% */
 }
+
+.search-container {
+    margin-bottom: 30px;
+}
+
+#search-input {
+    width: 300px; 
+}

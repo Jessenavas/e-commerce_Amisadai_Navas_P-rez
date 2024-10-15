@@ -36,12 +36,12 @@ const data = [
     }
 ];
 
-function generarTarjetas() {
+function generarTarjetas(productos) {
     const container = document.querySelector(".container");
     const row = document.createElement("div");
     row.classList.add("row");
 
-    const tarjetas = data.map(producto => `
+    const tarjetas = productos.map(producto => `
         <div class="col-md-4 mt-5">
             <div class="card">
                 <img src="${producto.imagen_url}" class="card-img-top" alt="${producto.titulo}">
@@ -49,7 +49,6 @@ function generarTarjetas() {
                     <h5 class="card-title">${producto.titulo}</h5>
                     <p class="card-text">${producto.descripcion}</p>
                     <p class="card-text">Precio: $${producto.precio}</p>
-                    <!-- Se agrega el id del producto en la URL -->
                     <a href="./producto.html?prod=${producto.id}" class="btn btn-primary">Ver más</a>
                 </div>
             </div>
@@ -57,8 +56,29 @@ function generarTarjetas() {
     `);
 
     row.innerHTML = tarjetas.join('');
+    container.innerHTML = ''; 
     container.appendChild(row);
 }
 
-generarTarjetas();
+
+generarTarjetas(data);
+
+
+const searchInput = document.getElementById("search-input");
+const searchButton = document.getElementById("search-button");
+const clearButton = document.getElementById("clear-button");
+
+searchButton.addEventListener("click", () => {
+    const query = searchInput.value.toLowerCase();
+    const filterData = data.filter(producto => 
+        producto.titulo.toLowerCase().includes(query) || 
+        producto.descripcion.toLowerCase().includes(query)
+    );
+    generarTarjetas(filterData);
+});
+
+clearButton.addEventListener("click", () => {
+    searchInput.value = '';
+    generarTarjetas(data); 
+});
 
