@@ -17,22 +17,25 @@ const data = [
         "id": 1,
         "titulo": "Producto 1",
         "descripcion": "Descripción del producto 1.",
-        "imagen_url": "https://66d9ee6caa07a954166f10ed--gregarious-melba-cacdba.netlify.app/1.jpg", 
-        "precio": 100
+        "imagen_url": "https://66d9ee6caa07a954166f10ed--gregarious-melba-cacdba.netlify.app/1.jpg",
+        "precio": 100,
+        "categoria": "Quesos"  
     },
     {
         "id": 2,
         "titulo": "Producto 2",
         "descripcion": "Descripción del producto 2.",
-        "imagen_url": "https://66d9ee6caa07a954166f10ed--gregarious-melba-cacdba.netlify.app/2.jpg", 
-        "precio": 150
+        "imagen_url": "https://66d9ee6caa07a954166f10ed--gregarious-melba-cacdba.netlify.app/2.jpg",
+        "precio": 150,
+        "categoria": "Carnes" 
     },
     {
         "id": 3,
         "titulo": "Producto 3",
         "descripcion": "Descripción del producto 3.",
-        "imagen_url": "https://66d9ee6caa07a954166f10ed--gregarious-melba-cacdba.netlify.app/3.jpg", 
-        "precio": 200
+        "imagen_url": "https://66d9ee6caa07a954166f10ed--gregarious-melba-cacdba.netlify.app/3.jpg",
+        "precio": 200,
+        "categoria": "Verduras"  
     }
 ];
 
@@ -81,4 +84,33 @@ clearButton.addEventListener("click", () => {
     searchInput.value = '';
     generarTarjetas(data); 
 });
+
+
+const categorias = [...new Set(data.map(producto => producto.categoria))];
+
+function generarBotonesCategorias() {
+    const container = document.querySelector(".category-buttons-container");
+    
+    const verTodosButton = document.createElement("button");
+    verTodosButton.classList.add("btn", "btn-secondary", "m-2");
+    verTodosButton.textContent = "Ver Todos";
+    verTodosButton.addEventListener("click", () => generarTarjetas(data));
+    container.appendChild(verTodosButton);
+
+
+    categorias.forEach(categoria => {
+        const button = document.createElement("button");
+        button.classList.add("btn", "btn-info", "m-2");
+        button.textContent = categoria;
+        button.addEventListener("click", () => filtrarPorCategoria(categoria));
+        container.appendChild(button);
+    });
+}
+
+function filtrarPorCategoria(categoria) {
+    const productosFiltrados = data.filter(producto => producto.categoria === categoria);
+    generarTarjetas(productosFiltrados);
+}
+
+generarBotonesCategorias();
 
