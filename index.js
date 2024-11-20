@@ -84,12 +84,13 @@ function generarBotonesCategorias() {
 
     categorias.forEach(categoria => {
         const button = document.createElement("button");
-        button.classList.add("btn", "btn-info", "m-2");
+        button.classList.add("btn", "btn-primary", "m-2");  // Cambié btn-info a btn-primary
         button.textContent = categoria;
         button.addEventListener("click", () => filtrarPorCategoria(categoria));
         container.appendChild(button);
     });
 }
+
 
 function filtrarPorCategoria(categoria) {
     const productosFiltrados = data.filter(producto => producto.categoria === categoria);
