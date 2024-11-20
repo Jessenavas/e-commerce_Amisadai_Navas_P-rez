@@ -6,6 +6,14 @@ const correctPassword = "12345";
 function handleSubmitLogin(event) {
     event.preventDefault();
 
+    // Comprobamos si el usuario ya está logueado
+    const loggedInEmail = localStorage.getItem("email");
+    if (loggedInEmail) {
+        // Si ya está logueado, redirigimos a la página principal
+        window.location.href = "./index.html";
+        return;  // Salimos de la función si ya está logueado
+    }
+
     // Obtenemos los valores introducidos por el usuario
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
@@ -14,9 +22,14 @@ function handleSubmitLogin(event) {
     if (email === correctEmail && password === correctPassword) {
         // Si son correctos, redirigimos al index.html y guardamos la sesión
         localStorage.setItem("email", email);
-        localStorage.setItem("cart", JSON.stringify([]));  // Creamos el carrito vacío
-        localStorage.setItem("quantity", JSON.stringify(0));  // Inicializamos el contador
-        window.location.href = "./index.html";  // Redirigimos a la página principal
+        localStorage.setItem("quantity", JSON.stringify(0));  // Inicializamos el contador en 0
+
+        // Inicializamos un carrito vacío (array) y lo agregamos al localStorage
+        const emptyCart = [];
+        localStorage.setItem("cart", JSON.stringify(emptyCart));  // Convertimos el carrito a string con JSON.stringify
+        
+        // Redirigimos a la página principal
+        window.location.href = "./index.html";  
     } else {
         // Si son incorrectos, mostramos el mensaje de error y limpiamos el formulario
         document.getElementById("error-message").textContent = "Correo o contraseña incorrectos";
@@ -24,7 +37,7 @@ function handleSubmitLogin(event) {
     }
 }
 
-// Comprobamos si el usuario ya está logueado
+// Comprobamos si el usuario ya está logueado al cargar la página
 function checkLoginStatus() {
     const email = localStorage.getItem("email");
     if (email) {
