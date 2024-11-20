@@ -98,3 +98,14 @@ function filtrarPorCategoria(categoria) {
 }
 
 generarBotonesCategorias();
+
+
+// Mostrar el contador de productos en el carrito desde localStorage
+function updateCartQuantity() {
+    const quantity = JSON.parse(localStorage.getItem("quantity")) || 0;
+    const cartIcon = document.getElementById("cart-quantity");
+    cartIcon.textContent = quantity;
+}
+
+// Actualizamos el carrito al cargar la página
+updateCartQuantity();
