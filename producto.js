@@ -23,19 +23,17 @@ const data = [
         "stock": 20,
         "imagen": "https://66d9ee6caa07a954166f10ed--gregarious-melba-cacdba.netlify.app/3.jpg"
     }
-];
-
-
-const queryString = window.location.search;
-const urlParams = new URLSearchParams(queryString);
-const productId = parseInt(urlParams.get('prod')); 
-
-
-const producto = data.find(item => item.id === productId);
-
-if (producto) {
-    const productoHTML = `
-        <div class="col-md-4 mt-5"> <!-- col-md-4 y mt-5 para mantener el formato -->
+  ];
+  
+  const queryString = window.location.search;
+  const urlParams = new URLSearchParams(queryString);
+  const productId = parseInt(urlParams.get('prod')); 
+  
+  const producto = data.find(item => item.id === productId);
+  
+  if (producto) {
+    const productoHTML = 
+        `<div class="col-md-4 mt-5">
             <div class="card">
                 <img src="${producto.imagen}" class="card-img-top" alt="${producto.titulo}">
                 <div class="card-body">
@@ -46,11 +44,10 @@ if (producto) {
                     <a href="#" class="btn btn-primary">Comprar</a>
                 </div>
             </div>
-        </div>
-    `;
-
-    
+        </div>`;
+  
     document.querySelector("main").innerHTML = productoHTML;
-} else {
+  } else {
     document.querySelector("main").innerHTML = "<p>Producto no encontrado</p>";
-}
+  }
+  

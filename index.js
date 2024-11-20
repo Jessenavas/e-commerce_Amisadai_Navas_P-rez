@@ -1,15 +1,3 @@
-/* console.log("Holaaaaaaaaa mucho gusto usuario, soy Amisa");  
-
-const h5 = document.querySelector("h5");
-const text = document.querySelector(".card-text");
-const img = document.querySelector(".card img");
-
-console.log("h5",h5)
-
-h5.innerText = "Tacos al pastor";
-text.innerText = "Unos ricos tacos al pastor de carne de res, sazonada con chiles, con un trozo de piña, cilantro y cebolla.";
-img.src = ""; */
-
 document.querySelector("h1").innerHTML = "Productos";
 
 const data = [
@@ -44,8 +32,8 @@ function generarTarjetas(productos) {
     const row = document.createElement("div");
     row.classList.add("row");
 
-    const tarjetas = productos.map(producto => `
-        <div class="col-md-4 mt-5">
+    const tarjetas = productos.map(producto => 
+        `<div class="col-md-4 mt-5">
             <div class="card">
                 <img src="${producto.imagen_url}" class="card-img-top" alt="${producto.titulo}">
                 <div class="card-body">
@@ -55,17 +43,15 @@ function generarTarjetas(productos) {
                     <a href="./producto.html?prod=${producto.id}" class="btn btn-primary">Ver más</a>
                 </div>
             </div>
-        </div>
-    `);
+        </div>`
+    );
 
     row.innerHTML = tarjetas.join('');
     container.innerHTML = ''; 
     container.appendChild(row);
 }
 
-
 generarTarjetas(data);
-
 
 const searchInput = document.getElementById("search-input");
 const searchButton = document.getElementById("search-button");
@@ -85,7 +71,6 @@ clearButton.addEventListener("click", () => {
     generarTarjetas(data); 
 });
 
-
 const categorias = [...new Set(data.map(producto => producto.categoria))];
 
 function generarBotonesCategorias() {
@@ -96,7 +81,6 @@ function generarBotonesCategorias() {
     verTodosButton.textContent = "Ver Todos";
     verTodosButton.addEventListener("click", () => generarTarjetas(data));
     container.appendChild(verTodosButton);
-
 
     categorias.forEach(categoria => {
         const button = document.createElement("button");
@@ -113,4 +97,3 @@ function filtrarPorCategoria(categoria) {
 }
 
 generarBotonesCategorias();
-
