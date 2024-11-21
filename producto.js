@@ -109,6 +109,18 @@ function updateCart(currentQuantity) {
         cart[productIndex].quantity = currentQuantity;
     }
 
-    // Guardamos el carrito actualizado
+    // Guardamos el carrito actualizado en localStorage
     localStorage.setItem("cart", JSON.stringify(cart));
+
+    // Actualizar la cantidad del carrito en el navbar
+    updateCartQuantity();
+}
+
+// Función para actualizar la cantidad en el carrito en el navbar
+function updateCartQuantity() {
+    const cart = JSON.parse(localStorage.getItem("cart")) || [];
+    const totalQuantity = cart.reduce((total, item) => total + item.quantity, 0);
+    localStorage.setItem("quantity", totalQuantity); // Guardamos la cantidad total en localStorage
+    const cartIcon = document.getElementById("cart-quantity");
+    cartIcon.textContent = totalQuantity; // Actualizamos el badge del carrito
 }

@@ -21,7 +21,7 @@ function showCartItems() {
             totalPrice += producto.precio * producto.quantity;
             return `<div class="card mb-3">
                 <div class="card-body">
-                 <img src="${producto.imagen}" alt="${producto.nombre}" >
+                    <img src="${producto.imagen}" alt="${producto.nombre}" >
                     <h5 class="card-title">${producto.nombre}</h5>
                     <p class="card-text">Precio: $${producto.precio}</p>
                     <p class="card-text">Cantidad: <span id="quantity-${producto.id}">${producto.quantity}</span></p>
@@ -35,6 +35,17 @@ function showCartItems() {
         cartItemsContainer.innerHTML = itemsHTML.join("");
         totalPriceContainer.innerHTML = `<h4>Total: $${totalPrice}</h4>`;
     }
+
+    // Actualizamos el contador del carrito en el navbar
+    updateCartQuantityInNavbar();
+}
+
+// Función para actualizar el contador del carrito en el navbar
+function updateCartQuantityInNavbar() {
+    const cart = JSON.parse(localStorage.getItem("cart")) || [];
+    const totalQuantity = cart.reduce((acc, producto) => acc + producto.quantity, 0); // Suma todas las cantidades
+    const cartQuantityBadge = document.getElementById("cart-quantity");
+    cartQuantityBadge.textContent = totalQuantity;  // Actualiza el contador en el navbar
 }
 
 // Aumentar la cantidad de un producto en el carrito

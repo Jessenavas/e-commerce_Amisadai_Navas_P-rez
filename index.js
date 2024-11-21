@@ -27,6 +27,19 @@ const data = [
     }
 ];
 
+// Verificamos si el usuario está registrado
+function checkRegistration() {
+    const email = localStorage.getItem("email");  // Obtenemos el email del usuario desde localStorage
+    if (!email) {  // Si no está registrado, borramos los datos asociados
+        localStorage.removeItem("email");  // Elimina el email
+        localStorage.removeItem("cart");  // Elimina el carrito de compras
+        localStorage.removeItem("quantity");  // Elimina la cantidad del carrito
+    }
+}
+
+// Llamamos a la función para verificar el registro al cargar la página
+checkRegistration();
+
 function generarTarjetas(productos) {
     const container = document.querySelector(".container");
     const row = document.createElement("div");
@@ -91,14 +104,12 @@ function generarBotonesCategorias() {
     });
 }
 
-
 function filtrarPorCategoria(categoria) {
     const productosFiltrados = data.filter(producto => producto.categoria === categoria);
     generarTarjetas(productosFiltrados);
 }
 
 generarBotonesCategorias();
-
 
 // Mostrar el contador de productos en el carrito desde localStorage
 function updateCartQuantity() {
