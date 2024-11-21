@@ -35,7 +35,10 @@ const producto = data.find(item => item.id === productId);
 
 // Si el producto existe, creamos su vista
 if (producto) {
-    const productoHTML = `
+    // Verificar si el usuario está logueado
+    const isLoggedIn = localStorage.getItem("email");
+
+    let productoHTML = `
         <div class="col-md-4 mt-5">
             <div class="card">
                 <img src="${producto.imagen}" class="card-img-top" alt="${producto.titulo}">
@@ -44,20 +47,36 @@ if (producto) {
                     <p class="card-text">${producto.detalle}</p>
                     <p class="card-text">Precio: $${producto.precio}</p>
                     <p class="card-text">Stock disponible: ${producto.stock}</p>
+    `;
+
+    if (isLoggedIn) {
+        // Si está logueado, mostrar los botones de incremento y decremento
+        productoHTML += `
                     <button id="decrement" class="btn btn-danger">-</button>
                     <span id="quantity">0</span>
                     <button id="increment" class="btn btn-success">+</button>
-                    <a href="#" id="buyButton" class="btn btn-primary">Iniciar sesión para comprar</a>
+                    <a href="cart.html?prod=${producto.id}" id="buyButton" class="btn btn-primary mt-3">Añadir al carrito</a>
+        `;
+    } else {
+        // Si no está logueado, mostrar solo el botón de "Iniciar sesión para comprar"
+        productoHTML += `
+                    <a href="login.html" id="buyButton" class="btn btn-primary">Iniciar sesión para comprar</a>
+        `;
+    }
+
+    productoHTML += `
                 </div>
             </div>
-        </div>`;
+        </div>
+    `;
 
     document.querySelector("main").innerHTML = productoHTML;
 
-    // Agregar el evento de incrementación
-    document.getElementById("increment").addEventListener("click", () => incrementQuantity(producto));
-    // Agregar el evento de decrementación
-    document.getElementById("decrement").addEventListener("click", () => decrementQuantity(producto));
+    // Si está logueado, agregar los eventos de incremento y decremento
+    if (isLoggedIn) {
+        document.getElementById("increment").addEventListener("click", () => incrementQuantity(producto));
+        document.getElementById("decrement").addEventListener("click", () => decrementQuantity(producto));
+    }
 
     // Lógica para manejar el botón de compra
     const buyButton = document.getElementById("buyButton");
