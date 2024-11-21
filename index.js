@@ -64,7 +64,22 @@ function generarTarjetas(productos) {
     container.appendChild(row);
 }
 
-generarTarjetas(data);
+// Aquí se agrega la promesa y el setTimeout
+function cargarProductos() {
+    return new Promise(resolve => {
+        setTimeout(() => {
+            resolve(data);
+        }, 3000); // Simula un delay de 3 segundos
+    });
+}
+
+// Inicia la carga de productos
+cargarProductos().then(productos => {
+    // Reemplaza el spinner con las tarjetas de productos
+    const loader = document.getElementById("loader");
+    loader.style.display = "none";  // Oculta el spinner
+    generarTarjetas(productos);  // Muestra las tarjetas
+});
 
 const searchInput = document.getElementById("search-input");
 const searchButton = document.getElementById("search-button");
@@ -114,7 +129,7 @@ generarBotonesCategorias();
 // Mostrar el contador de productos en el carrito desde localStorage
 function updateCartQuantity() {
     const quantity = JSON.parse(localStorage.getItem("quantity")) || 0;
-    const cartIcon = document.getElementById("cart-quantity");
+    const cartIcon = document.getElementById("cartQuantity");
     cartIcon.textContent = quantity;
 }
 
