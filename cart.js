@@ -1,4 +1,4 @@
-// Verificamos si el usuario está logueado
+// Usuario está logueado?
 function checkLogin() {
     const email = localStorage.getItem("email");
     if (!email) {
@@ -21,7 +21,7 @@ function showCartItems() {
             totalPrice += producto.precio * producto.quantity;
             return `<div class="card mb-3">
                 <div class="card-body">
-                    <img src="${producto.imagen}" alt="${producto.nombre}" >
+                    <img src="${producto.imagen}" alt="${producto.nombre}" class="img-thumbnail">
                     <h5 class="card-title">${producto.nombre}</h5>
                     <p class="card-text">Precio: $${producto.precio}</p>
                     <p class="card-text">Cantidad: <span id="quantity-${producto.id}">${producto.quantity}</span></p>
@@ -36,45 +36,45 @@ function showCartItems() {
         totalPriceContainer.innerHTML = `<h4>Total: $${totalPrice}</h4>`;
     }
 
-    // Actualizamos el contador del carrito en el navbar
+    // Actualizar contador carrito
     updateCartQuantityInNavbar();
 }
 
-// Función para actualizar el contador del carrito en el navbar
+// Función actualizar contador carrito navbar
 function updateCartQuantityInNavbar() {
     const cart = JSON.parse(localStorage.getItem("cart")) || [];
-    const totalQuantity = cart.reduce((acc, producto) => acc + producto.quantity, 0); // Suma todas las cantidades
+    const totalQuantity = cart.reduce((acc, producto) => acc + producto.quantity, 0);
     const cartQuantityBadge = document.getElementById("cart-quantity");
-    cartQuantityBadge.textContent = totalQuantity;  // Actualiza el contador en el navbar
+    cartQuantityBadge.textContent = totalQuantity; 
 }
 
-// Aumentar la cantidad de un producto en el carrito
+// Aumentamos cantidad producto carrito
 function increaseQuantity(id) {
     const cart = JSON.parse(localStorage.getItem("cart")) || [];
     const product = cart.find(p => p.id === id);
 
     if (product) {
-        product.quantity++;  // Aumenta la cantidad
-        localStorage.setItem("cart", JSON.stringify(cart));  // Actualiza el carrito en localStorage
-        showCartItems();  // Vuelve a mostrar el carrito con la nueva cantidad
+        product.quantity++;  
+        localStorage.setItem("cart", JSON.stringify(cart));
+        showCartItems(); 
     }
 }
 
-// Disminuir la cantidad de un producto en el carrito
+// Disminuimos cantidad producto carrito
 function decreaseQuantity(id) {
     const cart = JSON.parse(localStorage.getItem("cart")) || [];
     const product = cart.find(p => p.id === id);
 
-    if (product && product.quantity > 1) {  // No permitimos que la cantidad sea menor que 1
-        product.quantity--;  // Disminuye la cantidad
-        localStorage.setItem("cart", JSON.stringify(cart));  // Actualiza el carrito en localStorage
-        showCartItems();  // Vuelve a mostrar el carrito con la nueva cantidad
+    if (product && product.quantity > 1) {  
+        product.quantity--;  
+        localStorage.setItem("cart", JSON.stringify(cart)); 
+        showCartItems();  
     } else if (product && product.quantity === 1) {
-        removeFromCart(id);  // Si la cantidad llega a 1, eliminamos el producto
+        removeFromCart(id); 
     }
 }
 
-// Eliminar producto del carrito
+// Eliminamos producto carrito
 function removeFromCart(id) {
     const cart = JSON.parse(localStorage.getItem("cart")) || [];
     const updatedCart = cart.filter(product => product.id !== id);
@@ -82,12 +82,71 @@ function removeFromCart(id) {
     showCartItems();
 }
 
-// Vaciar el carrito
+// Vaciar carrito
 document.getElementById("clear-cart").addEventListener("click", () => {
     localStorage.removeItem("cart");
     showCartItems();
 });
 
-// Ejecutamos las funciones al cargar la página
-checkLogin();
-showCartItems();
+// Función checkout
+function checkout() {
+    const cartItems = JSON.parse(localStorage.getItem("cart"));
+
+    // Productos en el carrito?
+    if (!cartItems || cartItems.length === 0) {
+        Swal.fire({
+            icon: "error",
+            text: "No hay productos en el carrito.",
+            confirmButtonText: "Okay",
+            confirmButtonColor: "#06f",
+        });
+        return; 
+    }
+
+    const recurso = {
+        user: localStorage.getItem("email"),
+        items: cartItems,
+    };
+
+    fetch("https://673d09dd4db5a341d833d038.mockapi.io/orders", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json", 
+        },
+        body: JSON.stringify(recurso),
+    })
+    .then((response) => response.json())
+    .then((data) => {
+        Swal.fire({
+            icon: "success",
+            text: `Gracias ${recurso.user}. Hemos registrado tu orden número #${data.id}`,
+            confirmButtonText: "Okay",
+            confirmButtonColor: "#06f",
+        });
+
+        // Elimina carrito localStorage
+        localStorage.removeItem("cart");
+
+        // Elimina cantidad 
+        localStorage.removeItem("quantity");
+
+        setTimeout(() => {
+            window.location.href = './index.html'; 
+        }, 3000); 
+    })
+    .catch(() =>
+        Swal.fire({
+            icon: "error",
+            text: "Ups, hubo un problema. Por favor, inténtalo más tarde.",
+            confirmButtonText: "Okay",
+            confirmButtonColor: "#06f",
+        })
+    );
+}
+
+
+document.getElementById("checkout-btn").addEventListener("click", checkout);
+
+
+checkLogin();  // Verificar usuario logueado
+showCartItems();  // Muestra productos carrito

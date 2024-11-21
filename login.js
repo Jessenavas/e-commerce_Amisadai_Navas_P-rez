@@ -37,16 +37,14 @@ function handleSubmitLogin(event) {
     }
 }
 
-// Comprobamos si el usuario ya está logueado al cargar la página
+// Usuario ya logueado?
 function checkLoginStatus() {
     const email = localStorage.getItem("email");
     if (email) {
-        window.location.href = "./index.html";  // Si está logueado, redirigimos al index
+        window.location.href = "./index.html"; 
     }
 }
 
-// Ejecutamos la función de validación al cargar la página
 checkLoginStatus();
 
-// Asignamos el evento al formulario
 document.getElementById("login-form").addEventListener("submit", handleSubmitLogin);

@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
-    // Menú principal
+    
     let menu = [
         { texto: "Inicio", href: "./index.html" },
         { texto: "Producto", href: "#" },
@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", function () {
         menuHTML.push(`<li class="nav-item"><a class="nav-link" href="${item.href}">${item.texto}</a></li>`);
     }
 
-    // Navbar HTML
+    
     let navHTML = `
         <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #28a745;">
             <div class="container-fluid">
@@ -35,10 +35,10 @@ document.addEventListener("DOMContentLoaded", function () {
         </nav>
     `;
 
-    // Insertar navbar en el header
+    
     document.querySelector("header").innerHTML = navHTML;
 
-    // Función para actualizar el estado de la sesión en la navbar
+    // Función actualizar estado sesión navbar
     function updateNavBar() {
         const email = localStorage.getItem("email");
         const navMenu = document.querySelector(".navbar-nav");
@@ -57,24 +57,22 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-    // Actualizar el contador del carrito
+    // Actualizar contador carrito
     const cartQuantity = JSON.parse(localStorage.getItem("quantity")) || 0;
     const cartIcon = document.getElementById("cart-quantity");
     cartIcon.textContent = cartQuantity;
 
-    // Función para animar el navbar en el scroll
     const navbar = document.querySelector("nav");
     let lastScrollY = window.scrollY;
 
     window.addEventListener("scroll", () => {
         if (window.scrollY > lastScrollY) {
-            navbar.style.transform = "translateY(-100%)"; // Oculta el navbar al hacer scroll hacia abajo
+            navbar.style.transform = "translateY(-100%)";
         } else {
-            navbar.style.transform = "translateY(0)"; // Muestra el navbar al hacer scroll hacia arriba
+            navbar.style.transform = "translateY(0)"; 
         }
         lastScrollY = window.scrollY;
     });
 
-    // Ejecutar la función para actualizar la navbar
     updateNavBar();
 });

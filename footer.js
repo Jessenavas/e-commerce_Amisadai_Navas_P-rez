@@ -7,5 +7,4 @@ const footerHTML = `
     <a href="#" class="text-white mx-2"><i class="fab fa-youtube"></i></a>
 `;
 
-// Insertar el contenido en el footer
 document.querySelector("footer").innerHTML = footerHTML;

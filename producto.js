@@ -1,4 +1,3 @@
-// Simulación de datos del producto
 const data = [
     {
         "id": 1,
@@ -26,16 +25,16 @@ const data = [
     }
 ];
 
-// Obtener el producto con base en la URL
+
 const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
 const productId = parseInt(urlParams.get('prod'));
 
 const producto = data.find(item => item.id === productId);
 
-// Si el producto existe, creamos su vista
+// Existe producto?
 if (producto) {
-    // Verificar si el usuario está logueado
+    
     const isLoggedIn = localStorage.getItem("email");
 
     let productoHTML = `
@@ -50,7 +49,7 @@ if (producto) {
     `;
 
     if (isLoggedIn) {
-        // Si está logueado, mostrar los botones de incremento y decremento
+        // Logueado = incremento/decremento
         productoHTML += `
                     <button id="decrement" class="btn btn-danger">-</button>
                     <span id="quantity">0</span>
@@ -58,7 +57,7 @@ if (producto) {
                     <a href="cart.html?prod=${producto.id}" id="buyButton" class="btn btn-primary mt-3">Añadir al carrito</a>
         `;
     } else {
-        // Si no está logueado, mostrar solo el botón de "Iniciar sesión para comprar"
+        // No logueado = Iniciar sesión
         productoHTML += `
                     <a href="login.html" id="buyButton" class="btn btn-primary">Iniciar sesión para comprar</a>
         `;
@@ -72,24 +71,23 @@ if (producto) {
 
     document.querySelector("main").innerHTML = productoHTML;
 
-    // Si está logueado, agregar los eventos de incremento y decremento
+    
     if (isLoggedIn) {
         document.getElementById("increment").addEventListener("click", () => incrementQuantity(producto));
         document.getElementById("decrement").addEventListener("click", () => decrementQuantity(producto));
     }
 
-    // Lógica para manejar el botón de compra
+    
     const buyButton = document.getElementById("buyButton");
     if (localStorage.getItem("email")) {
         buyButton.textContent = "Comprar";
-        buyButton.href = "./cart.html?prod=" + productId; // Se pasa el ID del producto
+        buyButton.href = "./cart.html?prod=" + productId; 
     } else {
         buyButton.textContent = "Iniciar sesión para comprar";
-        buyButton.href = "login.html"; // Redirige al login
+        buyButton.href = "login.html"; 
     }
 }
 
-// Función para incrementar la cantidad de productos
 function incrementQuantity(producto) {
     let currentQuantity = parseInt(document.getElementById("quantity").textContent);
     if (currentQuantity < producto.stock) {
@@ -99,7 +97,6 @@ function incrementQuantity(producto) {
     }
 }
 
-// Función para decrementar la cantidad de productos
 function decrementQuantity(producto) {
     let currentQuantity = parseInt(document.getElementById("quantity").textContent);
     if (currentQuantity > 1) {
@@ -109,13 +106,12 @@ function decrementQuantity(producto) {
     }
 }
 
-// Actualiza el carrito en localStorage
 function updateCart(currentQuantity) {
     let cart = JSON.parse(localStorage.getItem("cart")) || [];
     const productIndex = cart.findIndex(item => item.id === productId);
 
     if (productIndex === -1) {
-        // Si el producto no está en el carrito, lo añadimos
+    
         cart.push({ 
             id: productId, 
             quantity: currentQuantity, 
@@ -124,22 +120,20 @@ function updateCart(currentQuantity) {
             imagen: producto.imagen 
         });
     } else {
-        // Si ya está en el carrito, actualizamos su cantidad
+        // Actualizamos cantidad
         cart[productIndex].quantity = currentQuantity;
     }
 
-    // Guardamos el carrito actualizado en localStorage
     localStorage.setItem("cart", JSON.stringify(cart));
 
-    // Actualizar la cantidad del carrito en el navbar
     updateCartQuantity();
 }
 
-// Función para actualizar la cantidad en el carrito en el navbar
+
 function updateCartQuantity() {
     const cart = JSON.parse(localStorage.getItem("cart")) || [];
     const totalQuantity = cart.reduce((total, item) => total + item.quantity, 0);
-    localStorage.setItem("quantity", totalQuantity); // Guardamos la cantidad total en localStorage
+    localStorage.setItem("quantity", totalQuantity); 
     const cartIcon = document.getElementById("cart-quantity");
-    cartIcon.textContent = totalQuantity; // Actualizamos el badge del carrito
+    cartIcon.textContent = totalQuantity; 
 }
