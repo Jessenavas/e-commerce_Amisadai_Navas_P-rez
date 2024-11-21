@@ -17,20 +17,49 @@ function showCartItems() {
         totalPriceContainer.innerHTML = "";
     } else {
         let totalPrice = 0;
-        const itemsHTML = cart.map(product => {
-            totalPrice += product.precio * product.quantity;
+        const itemsHTML = cart.map(producto => {
+            totalPrice += producto.precio * producto.quantity;
             return `<div class="card mb-3">
                 <div class="card-body">
-                    <h5 class="card-title">${product.titulo}</h5>
-                    <p class="card-text">Precio: $${product.precio}</p>
-                    <p class="card-text">Cantidad: ${product.quantity}</p>
-                    <button class="btn btn-danger" onclick="removeFromCart(${product.id})">Eliminar</button>
+                 <img src="${producto.imagen}" alt="${producto.nombre}" >
+                    <h5 class="card-title">${producto.nombre}</h5>
+                    <p class="card-text">Precio: $${producto.precio}</p>
+                    <p class="card-text">Cantidad: <span id="quantity-${producto.id}">${producto.quantity}</span></p>
+                    <button class="btn btn-warning" onclick="decreaseQuantity(${producto.id})"> - </button>
+                    <button class="btn btn-success" onclick="increaseQuantity(${producto.id})"> + </button>
+                    <button class="btn btn-danger" onclick="removeFromCart(${producto.id})">Eliminar</button>
                 </div>
             </div>`;
         });
 
         cartItemsContainer.innerHTML = itemsHTML.join("");
         totalPriceContainer.innerHTML = `<h4>Total: $${totalPrice}</h4>`;
+    }
+}
+
+// Aumentar la cantidad de un producto en el carrito
+function increaseQuantity(id) {
+    const cart = JSON.parse(localStorage.getItem("cart")) || [];
+    const product = cart.find(p => p.id === id);
+
+    if (product) {
+        product.quantity++;  // Aumenta la cantidad
+        localStorage.setItem("cart", JSON.stringify(cart));  // Actualiza el carrito en localStorage
+        showCartItems();  // Vuelve a mostrar el carrito con la nueva cantidad
+    }
+}
+
+// Disminuir la cantidad de un producto en el carrito
+function decreaseQuantity(id) {
+    const cart = JSON.parse(localStorage.getItem("cart")) || [];
+    const product = cart.find(p => p.id === id);
+
+    if (product && product.quantity > 1) {  // No permitimos que la cantidad sea menor que 1
+        product.quantity--;  // Disminuye la cantidad
+        localStorage.setItem("cart", JSON.stringify(cart));  // Actualiza el carrito en localStorage
+        showCartItems();  // Vuelve a mostrar el carrito con la nueva cantidad
+    } else if (product && product.quantity === 1) {
+        removeFromCart(id);  // Si la cantidad llega a 1, eliminamos el producto
     }
 }
 

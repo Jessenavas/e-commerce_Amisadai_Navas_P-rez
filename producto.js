@@ -63,7 +63,7 @@ if (producto) {
     const buyButton = document.getElementById("buyButton");
     if (localStorage.getItem("email")) {
         buyButton.textContent = "Comprar";
-        buyButton.href = "#"; // Enlazar con la funcionalidad de compra
+        buyButton.href = "./cart.html?prod=" + productId; // Se pasa el ID del producto
     } else {
         buyButton.textContent = "Iniciar sesión para comprar";
         buyButton.href = "login.html"; // Redirige al login
@@ -97,7 +97,13 @@ function updateCart(currentQuantity) {
 
     if (productIndex === -1) {
         // Si el producto no está en el carrito, lo añadimos
-        cart.push({ id: productId, quantity: currentQuantity });
+        cart.push({ 
+            id: productId, 
+            quantity: currentQuantity, 
+            nombre: producto.titulo, 
+            precio: producto.precio, 
+            imagen: producto.imagen 
+        });
     } else {
         // Si ya está en el carrito, actualizamos su cantidad
         cart[productIndex].quantity = currentQuantity;

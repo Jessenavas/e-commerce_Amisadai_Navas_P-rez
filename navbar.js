@@ -26,8 +26,8 @@ document.addEventListener("DOMContentLoaded", function () {
                     </ul>
                     <div class="d-flex align-items-center ms-3">
                         <a href="./cart.html">
-                            <img src="https://github.com/julioavantt/guayerd_login/blob/main/cart.png" alt="Carrito" width="40" height="40">
-                            <span id="cart-quantity" class="badge bg-warning text-dark">0</span>
+                            <img src="./img/cart.png" alt="Carrito" width="40" height="40">
+                            <span id="cart-quantity" class="badge bg-warning text-dark ms-3">${0}</span>
                         </a>
                     </div>
                 </div>
